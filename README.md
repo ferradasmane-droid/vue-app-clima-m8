@@ -54,6 +54,35 @@ Recrear una aplicación del clima utilizando Vue, separando la lógica en compon
 - `computed` para datos calculados.
 - `onMounted` para consumir la API al cargar la vista.
 
+## Estructura del proyecto
+
+```txt
+vue-app-clima/
+├── public/
+├── src/
+│   ├── assets/
+│   │   ├── img/
+│   │   └── main.css
+│   ├── components/
+│   │   ├── ClimaCard.vue
+│   │   └── EstadisticasClima.vue
+│   ├── data/
+│   │   └── ciudades.js
+│   ├── router/
+│   │   └── index.js
+│   ├── services/
+│   │   └── ClimaServices.js
+│   ├── views/
+│   │   ├── HomeView.vue
+│   │   ├── DetalleView.vue
+│   │   └── AboutView.vue
+│   ├── App.vue
+│   └── main.js
+├── index.html
+├── package.json
+└── README.md
+```
+
 ## Instalación
 
 ```bash
