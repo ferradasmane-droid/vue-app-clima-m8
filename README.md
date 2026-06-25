@@ -59,9 +59,9 @@ Agregar a la App del Clima un sistema básico de usuarios que permita:
 
 ## Rutas protegidas
 
-Las rutas /favoritos y /perfil requieren que el usuario haya iniciado sesión.
+Las rutas **/favoritos** y **/perfil** requieren que el usuario haya iniciado sesión.
 
-Si un usuario intenta ingresar a una ruta protegida sin estar autenticado, la aplicación lo redirige automáticamente a /login.
+Si un usuario intenta ingresar a una ruta protegida sin estar autenticado, la aplicación lo redirige automáticamente a **/login**.
 
 ## Usuario de prueba
 
@@ -202,3 +202,8 @@ https://github.com/ferradasmane-droid/vue-app-clima-m7
 ## Autora
 
 Nelly Ferrada
+
+![Vue](https://img.shields.io/badge/Vue-3-42b883)
+![Vite](https://img.shields.io/badge/Vite-Frontend-646cff)
+![Pinia](https://img.shields.io/badge/Pinia-State-yellow)
+![Router](https://img.shields.io/badge/Vue_Router-Rutas-0d6efd)
