@@ -1,20 +1,65 @@
 <template>
-  <div>
+  <div :class="['app', temaActual]">
     <header class="header">
-      <RouterLink to="/" class="logo"> 🌦️ App del Clima </RouterLink>
+      <RouterLink to="/" class="logo">
+        App del Clima
+      </RouterLink>
+        
+        <p v-if="authStore.isAuthenticated" class="usuario-header">
+          Sesión activa: {{ authStore.nombreUsuario }}
+        </p>
+      
 
       <nav class="nav">
-        <RouterLink to="/"> Inicio </RouterLink>
+        <RouterLink to="/">Inicio</RouterLink>
         <RouterLink to="/about">Acerca</RouterLink>
-      </nav> 
+
+        <RouterLink v-if="authStore.isAuthenticated" to="/favoritos">
+          Favoritos
+        </RouterLink>
+
+        <RouterLink v-if="authStore.isAuthenticated" to="/perfil">
+          Perfil
+        </RouterLink>
+
+        <RouterLink v-if="!authStore.isAuthenticated" to="/login">
+          Login
+        </RouterLink>
+
+        <RouterLink v-if="!authStore.isAuthenticated" to="/registro">
+          Registro
+        </RouterLink>
+
+        <button
+          v-if="authStore.isAuthenticated"
+          class="btn-salir"
+          @click="cerrarSesion"
+        >
+          Cerrar sesión
+        </button>
+      </nav>
     </header>
 
-    <main class="contenedor">
-      <RouterView />
-    </main>
+    <RouterView />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { useAuthStore } from './stores/authStore'
 
-<style scoped></style>
+const authStore = useAuthStore()
+const router = useRouter()
+
+const temaActual = computed(() => {
+  return authStore.preferencias.tema === 'oscuro'
+    ? 'tema-oscuro'
+    : 'tema-claro'
+})
+
+const cerrarSesion = () => {
+  authStore.logout()
+  router.push('/login')
+}
+</script>

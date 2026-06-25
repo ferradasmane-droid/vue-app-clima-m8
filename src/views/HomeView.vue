@@ -1,44 +1,54 @@
 <template>
   <section>
-    <div class="intro">
-      <h1>Consulta el clima actual</h1>
-      <p>Revisa el clima de distintas ciudades usando datos reales desde Open-Meteo.</p>
-    </div>
+    <div class="contenedor">
+      <div class="intro">
+        <h1>Consulta el clima actual</h1>
+        <p>Revisa el clima de distintas ciudades usando datos reales desde Open-Meteo.</p>
+      </div>
 
-    <form class="formulario" @submit.prevent="buscar">
-      <input v-model="busqueda" type="text" placeholder="Buscar ciudad..." />
+      <form class="formulario" @submit.prevent="buscar">
+        <input v-model="busqueda" type="text" placeholder="Buscar ciudad..." />
 
-      <select v-model="unidad">
-        <option value="C">Celsius °C</option>
-        <option value="F">Fahrenheit °F</option>
-      </select>
+        <select v-model="unidad">
+          <option value="C">Celsius °C</option>
+          <option value="F">Fahrenheit °F</option>
+        </select>
 
-      <button type="submit">Buscar</button>
+        <button type="submit">Buscar</button>
 
-      <button type="button" @click="limpiarBusqueda">Limpiar</button>
-    </form>
+        <button type="button" @click="limpiarBusqueda">Limpiar</button>
+      </form>
 
-    <p v-if="cargando" class="mensaje">Cargando información del clima...</p>
+      <p v-if="cargando" class="mensaje">Cargando información del clima...</p>
 
-    <p v-if="error" class="error">
-      {{ error }}
-    </p>
+      <p v-if="error" class="error">
+        {{ error }}
+      </p>
 
-    <p v-show="!cargando && ciudadesFiltradas.length > 0" class="resultado">
-      Ciudades encontradas: {{ ciudadesFiltradas.length }}
-    </p>
+      <p v-show="!cargando && ciudadesFiltradas.length > 0" class="resultado">
+        Ciudades encontradas: {{ ciudadesFiltradas.length }}
+      </p>
 
-    <p v-if="!cargando && ciudadesFiltradas.length === 0" class="mensaje">
-      No se encontró ninguna ciudad.
-    </p>
+      <p v-if="!cargando && ciudadesFiltradas.length === 0" class="mensaje">
+        No se encontró ninguna ciudad.
+      </p>
 
-    <div class="grid" :class="{ 'grid-una-card': ciudadesFiltradas.length === 1 }">
-      <ClimaCard
-        v-for="ciudad in ciudadesFiltradas"
-        :key="ciudad.id"
-        :ciudad="ciudad"
-        :unidad="unidad"
-      />
+      <div class="grid" :class="{ 'grid-una-card': ciudadesFiltradas.length === 1 }">
+        <div v-for="ciudad in ciudadesFiltradas" :key="ciudad.id" class="card-contenedor">
+          <ClimaCard :ciudad="ciudad" :unidad="unidad" />
+
+          <button
+            v-if="authStore.isAuthenticated"
+            class="btn-favorito"
+            type="button"
+            @click="agregarFavorito(ciudad)"
+          >
+            Agregar a favoritos
+          </button>
+
+          <p v-else class="texto-login">Inicia sesión para guardar esta ciudad.</p>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -47,14 +57,18 @@
 import { ref, computed, onMounted } from 'vue'
 import ClimaCard from '../components/ClimaCard.vue'
 import { ciudadesBase } from '../data/ciudades'
+import { useAuthStore } from '../stores/authStore'
+
 import {
   obtenerClima,
   obtenerDescripcionClima,
   obtenerIconoClima,
 } from '../services/ClimaServices.js'
 
+const authStore = useAuthStore()
+
 const busqueda = ref('')
-const unidad = ref('C')
+const unidad = ref(authStore.preferencias.unidad || 'C')
 const ciudades = ref([])
 const cargando = ref(true)
 const error = ref('')
@@ -97,5 +111,9 @@ const buscar = () => {
 
 const limpiarBusqueda = () => {
   busqueda.value = ''
+}
+
+const agregarFavorito = (ciudad) => {
+  authStore.agregarFavorito(ciudad.nombre)
 }
 </script>

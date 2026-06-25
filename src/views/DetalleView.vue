@@ -1,5 +1,7 @@
 <template>
-  <section>
+  <section class="detalle-page">
+    <div class="detalle-contenedor">
+    
     <RouterLink to="/" class="volver"> ← Volver al inicio </RouterLink>
 
     <p v-if="cargando" class="mensaje">Cargando detalle del clima...</p>
@@ -20,7 +22,7 @@
         </div>
       </div>
 
-      <section class="detalle-card" :class="claseClimaActual">
+      <section class="detalle-card clima-actual" :class="claseClimaActual">
         <h2>Clima actual</h2>
 
         <p>
@@ -78,7 +80,10 @@
       />
     </div>
 
-    <p v-if="!ciudad && !cargando" class="mensaje">No se encontró la ciudad solicitada.</p>
+    <p v-if="!ciudad && !cargando" class="mensaje">
+      No se encontró la ciudad solicitada.
+    </p>
+    </div>
   </section>
 </template>
 

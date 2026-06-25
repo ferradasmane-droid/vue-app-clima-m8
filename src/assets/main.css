@@ -7,13 +7,27 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #eef5f9;
   color: #1f2937;
+  overflow-x: hidden;
 }
+
+img {
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* =========================
+   HEADER / NAVBAR
+========================= */
 
 .header {
   background: linear-gradient(135deg, #0d6efd, #00b4d8);
   color: white;
-  padding: 22px;
+  padding: 24px 20px;
   text-align: center;
+  box-shadow: 0 6px 18px rgba(13, 110, 253, 0.2);
 }
 
 .logo {
@@ -22,14 +36,80 @@ body {
   font-size: 36px;
   font-weight: bold;
   text-decoration: none;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
-.header nav a {
+.header nav,
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.header nav a,
+.nav a {
   color: white;
+  font-size: 18px;
   font-weight: bold;
   text-decoration: none;
+  padding: 10px 22px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  line-height: 1;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.header nav a:hover,
+.nav a:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+.header nav a.router-link-active,
+.nav a.router-link-active {
+  background-color: white;
+  color: #0d6efd;
+}
+
+.usuario-header {
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.btn-salir {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-salir:hover {
+  background-color: #b91c1c;
+}
+
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
 
 .contenedor {
   width: min(1100px, 92%);
@@ -37,14 +117,39 @@ body {
   padding: 30px 0;
 }
 
+/* =========================
+   HOME / INTRO
+========================= */
+
 .intro {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .intro h1 {
   color: #0d6efd;
+  font-size: 54px;
+  margin-bottom: 14px;
 }
+
+.intro p {
+  font-size: 18px;
+  color: #334155;
+}
+
+.usuario-activo {
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 14px;
+}
+
+/* =========================
+   FORMULARIO HOME
+========================= */
 
 .formulario {
   display: flex;
@@ -63,21 +168,66 @@ body {
   font-size: 15px;
 }
 
+.formulario input,
+.formulario select {
+  background: white;
+}
+
 .formulario button {
   background: #0d6efd;
   color: white;
   border: none;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .formulario button:hover {
   background: #084298;
 }
 
+/* =========================
+   MENSAJES
+========================= */
+
+.mensaje {
+  text-align: center;
+  font-weight: bold;
+  color: #334155;
+}
+
+.error {
+  text-align: center;
+  color: #b02a37;
+  font-weight: bold;
+}
+
+.resultado {
+  text-align: center;
+  font-weight: bold;
+  color: #0d6efd;
+  margin: 18px 0 24px;
+  font-size: 18px;
+}
+
+/* =========================
+   GRID HOME Y CARDS
+========================= */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 22px;
+  margin-top: 10px;
+}
+
+.grid-una-card {
+  display: flex;
+  justify-content: center;
+}
+
+.grid-una-card .card {
+  max-width: 360px;
+  width: 100%;
 }
 
 .card,
@@ -91,11 +241,16 @@ body {
 }
 
 .card {
-  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 520px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 22px rgba(13, 110, 253, 0.16);
 }
 
 .card-img {
@@ -106,6 +261,14 @@ body {
 
 .card-body {
   padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-body .btn {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .card h3 {
@@ -140,46 +303,82 @@ body {
   background: #146c43;
 }
 
-.mensaje {
-  text-align: center;
-  font-weight: bold;
-  color: #334155;
+/* =========================
+   FAVORITOS M7
+========================= */
+
+.card-contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
 }
 
-.error {
-  text-align: center;
-  color: #b02a37;
+.btn-favorito {
+  width: 100%;
+  background-color: #0f766e;
+  color: white;
+  border: none;
+  padding: 11px 14px;
+  border-radius: 10px;
+  cursor: pointer;
   font-weight: bold;
 }
 
-.resultado {
+.btn-favorito:hover {
+  background-color: #115e59;
+}
+
+.texto-login {
+  min-height: 56px;
+  font-size: 14px;
+  color: #64748b;
   text-align: center;
-  font-weight: bold;
-  color: #0d6efd;
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   DETALLE VIEW
+========================= */
+
+.detalle-page {
+  padding: 32px 20px;
+}
+
+.detalle-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .detalle {
   margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .detalle-header {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 28px;
   align-items: center;
-  gap: 35px;
   text-align: center;
   background: white;
-  border-radius: 16px;
-  padding: 35px;
-  margin-bottom: 25px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
 .detalle-header img {
-  width: 320px;
-  height: 210px;
+  width: 100%;
+  height: 260px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 18px;
 }
 
 .detalle-header div {
@@ -191,35 +390,69 @@ body {
 .detalle-card {
   text-align: center;
   padding: 35px;
-  margin-bottom: 25px;
 }
 
 .detalle-card h2 {
   text-align: center;
 }
 
+.clima-actual {
+  max-width: 650px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 28px;
+  border-radius: 22px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.icono-grande {
+  font-size: 50px;
+  line-height: 1;
+  margin: 20px 0;
+  display: block;
+}
+
+/* =========================
+   PRONÓSTICO Y ESTADÍSTICAS
+========================= */
+
 .grid-pronostico,
 .grid-estadisticas {
   display: grid;
-  gap: 18px;
+  gap: 22px;
 }
 
 .grid-pronostico {
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-top: 22px;
 }
 
 .grid-estadisticas {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-top: 22px;
 }
 
 .pronostico-card,
 .estadistica-card {
-  padding: 18px;
+  padding: 22px 18px;
   text-align: center;
+}
+
+.pronostico-card {
+  min-height: 230px;
+}
+
+.pronostico-card h3 {
+  font-size: 18px;
+  min-height: 44px;
 }
 
 .estadisticas {
   margin-top: 30px;
+}
+
+.estadistica-card h4 {
+  color: #1f2937;
 }
 
 .estadistica-card p {
@@ -228,25 +461,9 @@ body {
   color: #0d6efd;
 }
 
-@media (max-width: 700px) {
-  .formulario {
-    flex-direction: column;
-  }
-
-  .formulario input,
-  .formulario select,
-  .formulario button {
-    width: 100%;
-  }
-
-  .detalle-header {
-    grid-template-columns: 1fr;
-  }
-
-  .logo {
-    font-size: 24px;
-  }
-}
+/* =========================
+   COLORES SEGÚN CLIMA
+========================= */
 
 .card-soleado {
   background: linear-gradient(180deg, #fff7d6, #ffffff);
@@ -288,13 +505,6 @@ body {
   border-top: 6px solid #0d6efd;
 }
 
-.icono-grande {
-  font-size: 50px;
-  line-height: 1;
-  margin: 20px 0;
-  display: block;
-}
-
 .estadistica-minima {
   background: linear-gradient(180deg, #dbeafe, #ffffff);
   border-top: 6px solid #2563eb;
@@ -310,35 +520,15 @@ body {
   border-top: 6px solid #16a34a;
 }
 
-.estadistica-card h4 {
-  color: #1f2937;
-}
-
-.estadistica-card p {
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.grid-una-card {
-  display: flex;
-  justify-content: center;
-}
-
-.grid-una-card .card {
-  max-width: 360px;
-  width: 100%;
-}
-
-.header nav {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-}
+/* =========================
+   ABOUT
+========================= */
 
 .about {
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
+  padding: 30px 20px;
 }
 
 .about h1 {
@@ -372,29 +562,233 @@ body {
   line-height: 1.8;
 }
 
-.nav {
+/* =========================
+   LOGIN / REGISTRO / PERFIL M7
+========================= */
+
+.pagina-formulario {
+  min-height: calc(100vh - 160px);
   display: flex;
   justify-content: center;
-  gap: 18px;
-  margin-top: 12px;
+  align-items: center;
+  padding: 45px 20px;
 }
 
-.nav a {
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 10px 18px;
-  border-radius: 999px;
-  transition: all 0.2s ease;
+.card-formulario {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  padding: 32px;
+  border-radius: 22px;
+  box-shadow: 0 10px 28px rgba(13, 110, 253, 0.15);
 }
 
-.nav a:hover {
-  background-color: rgba(255, 255, 255, 0.22);
-  transform: translateY(-2px);
-}
-
-.nav a.router-link-active {
-  background-color: white;
+.card-formulario h2 {
+  margin-top: 0;
   color: #0d6efd;
+  text-align: center;
+}
+
+.grupo-formulario {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.grupo-formulario label {
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+.grupo-formulario input,
+.grupo-formulario select {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.grupo-formulario input:focus,
+.grupo-formulario select:focus {
+  outline: 2px solid #93c5fd;
+  border-color: #0d6efd;
+}
+
+.card-formulario button {
+  width: 100%;
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.card-formulario button:hover {
+  background: #084298;
+}
+
+.card-formulario button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.mensaje-error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.mensaje-exito {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.texto-ayuda {
+  text-align: center;
+  margin-top: 18px;
+}
+
+.texto-ayuda a {
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+.datos-prueba,
+.datos-usuario {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 18px;
+}
+
+.datos-prueba p,
+.datos-usuario p {
+  margin: 5px 0;
+}
+
+/* =========================
+   TEMA OSCURO M7
+========================= */
+
+.tema-claro {
+  background: #eef5f9;
+  color: #1f2937;
+}
+
+.tema-oscuro {
+  background: #111827;
+  color: #f9fafb;
+}
+
+.tema-oscuro .intro,
+.tema-oscuro .card,
+.tema-oscuro .detalle-header,
+.tema-oscuro .detalle-card,
+.tema-oscuro .pronostico-card,
+.tema-oscuro .estadistica-card,
+.tema-oscuro .about-card,
+.tema-oscuro .card-formulario {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+.tema-oscuro .card h3,
+.tema-oscuro .intro h1,
+.tema-oscuro .about h1,
+.tema-oscuro .about-card h2,
+.tema-oscuro .card-formulario h2 {
+  color: #60a5fa;
+}
+
+.tema-oscuro .intro p,
+.tema-oscuro .pais,
+.tema-oscuro .texto-login,
+.tema-oscuro .mensaje {
+  color: #cbd5e1;
+}
+
+.tema-oscuro .texto-login {
+  background: #0f172a;
+}
+
+.tema-oscuro .datos-prueba,
+.tema-oscuro .datos-usuario {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.tema-oscuro input,
+.tema-oscuro select {
+  background: #0f172a;
+  color: white;
+  border-color: #475569;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 26px;
+  }
+
+  .header nav,
+  .nav {
+    gap: 10px;
+  }
+
+  .header nav a,
+  .nav a {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+
+  .intro h1 {
+    font-size: 34px;
+  }
+
+  .intro p {
+    font-size: 16px;
+  }
+
+  .formulario {
+    flex-direction: column;
+  }
+
+  .formulario input,
+  .formulario select,
+  .formulario button {
+    width: 100%;
+  }
+
+  .detalle-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .detalle-header img {
+    height: 220px;
+  }
+
+  .grid-pronostico {
+    grid-template-columns: 1fr;
+  }
+
+  .about h1 {
+    font-size: 30px;
+  }
+
+  .pagina-formulario {
+    align-items: flex-start;
+  }
 }
