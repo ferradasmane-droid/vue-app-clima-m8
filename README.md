@@ -72,7 +72,7 @@ Contraseña: 123456
 
 
 ## Rutas de la aplicación
- Markdown
+
 | Ruta | Descripción |
 |---|---|
 | `/` |	               Página principal con listado de ciudades y clima actual. |
