@@ -23,7 +23,7 @@ Agregar a la App del Clima un sistema básico de usuarios que permita:
 
 ## Funcionalidades principales
 
-## Funcionalidades del clima
+### Funcionalidades del clima
 
 - Listado de comunas de Chiloé.
 - Consulta de clima actual usando Open-Meteo.
@@ -36,7 +36,7 @@ Agregar a la App del Clima un sistema básico de usuarios que permita:
 - Navegación interna con Vue Router.
 
 
-## Funcionalidades de usuarios
+### Funcionalidades de usuarios
 
 - Inicio de sesión con usuarios simulados.
 - Registro básico de nuevos usuarios.
@@ -47,7 +47,7 @@ Agregar a la App del Clima un sistema básico de usuarios que permita:
 - Persistencia de sesión mediante LocalStorage.
 
 
-## Funcionalidades de personalización
+### Funcionalidades de personalización
 
 - Ciudades favoritas por usuario.
 - Vista protegida de favoritos.
