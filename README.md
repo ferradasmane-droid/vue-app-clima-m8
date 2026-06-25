@@ -76,7 +76,7 @@ Contraseña: 123456
 | Ruta | Descripción |
 |---|---|
 | `/` |	               Página principal con listado de ciudades y clima actual. |
-| `/about`	           Información general del proyecto. | 
+| `/about` |         Información general del proyecto. | 
 |`/detalle/:id` |    Detalle del clima de una ciudad. |
 |`/login` |	           Inicio de sesión. |
 |`/registro` |      Registro de usuario. |
