@@ -1,132 +1,203 @@
-# App del Clima con Vue 3 y Open-Meteo
+# Módulo 7 - App del Clima con Login, Usuarios y Estado Global
 
-## Descripción
+## Descripción del proyecto
 
-Este proyecto recrea una App del Clima como una SPA, aplicación de una sola página, desarrollada con Vue 3, Vite, Vue Router y Composition API.
+Este proyecto corresponde a una App del Clima desarrollada con Vue 3, Vite, Vue Router y Pinia.
 
-La aplicación consume datos reales desde la API Open-Meteo para mostrar el clima actual y el pronóstico semanal de distintas ciudades.
+La aplicación fue construida sobre la base del proyecto del Módulo 6, donde se consultaba información real del clima usando la API pública de Open-Meteo. En esta nueva versión del Módulo 7 se agregaron funcionalidades de autenticación, registro de usuarios, estado global, rutas protegidas, favoritos y preferencias personalizadas por usuario.
 
-## Objetivo del proyecto
+Aunque la pauta menciona Vuex, este proyecto utiliza Pinia como alternativa moderna recomendada para Vue 3. Pinia cumple la función de manejar el estado global de la aplicación, permitiendo guardar el usuario autenticado, sus favoritos y sus preferencias.
 
-Recrear una aplicación del clima utilizando Vue, separando la lógica en componentes, vistas, rutas, datos y servicios.
+## Objetivo del ejercicio
 
+Agregar a la App del Clima un sistema básico de usuarios que permita:
 
-## Vistas principales
-
-### Inicio
-
-La vista Inicio muestra el listado de ciudades de Chiloé en tarjetas. Cada tarjeta presenta una imagen, nombre de la ciudad, país, estado del clima, temperatura, humedad, viento y un botón para acceder al detalle.
-
-También incluye un buscador mediante `v-model` y un selector para cambiar la unidad de temperatura entre Celsius y Fahrenheit.
-
-### Detalle
-
-La vista Detalle muestra información ampliada de la ciudad seleccionada mediante una ruta dinámica `/detalle/:id`.
-
-En esta vista se presenta el clima actual, el pronóstico semanal y las estadísticas de la semana, como temperatura mínima, máxima y promedio.
-
-### ℹ️ Acerca
-
-La vista Acerca muestra información general del proyecto, las tecnologías utilizadas, las funcionalidades principales y el uso de la API Open-Meteo.
-
-## 🛠️ Tecnologías utilizadas
-
-- Vue 3
-- Vite
-- Vue Router
-- Composition API con `<script setup>`
-- JavaScript
-- CSS
-- Open-Meteo API
-- Git y GitHub
-
-## Estructura del proyecto
-
-```txt
-vue-app-clima/
-├── public/
-├── src/
-│   ├── assets/
-│   │   ├── img/
-│   │   └── main.css
-│   ├── components/
-│   │   ├── ClimaCard.vue
-│   │   └── EstadisticasClima.vue
-│   ├── data/
-│   │   └── ciudades.js
-│   ├── router/
-│   │   └── index.js
-│   ├── services/
-│   │   └── ClimaServices.js
-│   ├── views/
-│   │   ├── HomeView.vue
-│   │   ├── DetalleView.vue
-│   │   └── AboutView.vue
-│   ├── App.vue
-│   └── main.js
-├── index.html
-├── package.json
-└── README.md
-```
-
-##  🔗 Repositorio
-
-💻 [Ver repositorio en GitHub](https://github.com/ferradasmane-droid/vue-app-clima-m6)
-
-## 🧭 Rutas
+- Iniciar sesión.
+- Registrar un nuevo usuario.
+- Mantener el estado de autenticación.
+- Proteger rutas privadas.
+- Personalizar la experiencia según el usuario conectado.
+- Guardar ciudades favoritas.
+- Cambiar preferencias de temperatura y tema visual.
 
 
-- `/` : Vista principal con listado de ciudades.
-- `/detalle/:id` : Vista de detalle de una ciudad seleccionada.
-- `/about` : Acerca, muestra información sobre la aplicación, la API utilizada y las tecnologías del proyecto.
+## Funcionalidades principales
 
+## Funcionalidades del clima
 
-## Funcionalidades
-
-- Visualización de ciudades de Chiloé en tarjetas.
-- Consumo de datos reales desde Open-Meteo.
-- Búsqueda de ciudades mediante `v-model`.
+- Listado de comunas de Chiloé.
+- Consulta de clima actual usando Open-Meteo.
+- Visualización de temperatura, humedad, viento y estado del clima.
+- Búsqueda de ciudades mediante v-model.
 - Cambio de unidad entre Celsius y Fahrenheit.
 - Vista de detalle por ciudad.
 - Pronóstico semanal.
 - Estadísticas de temperatura mínima, máxima y promedio.
-- Colores dinámicos en tarjetas según el estado del clima.
-- Vista Acerca con información del proyecto.
-- Navegación interna sin recargar la página usando Vue Router.
+- Navegación interna con Vue Router.
 
 
-## Directivas y recursos de Vue usados
+## Funcionalidades de usuarios
 
-- `v-for` para recorrer ciudades y pronóstico.
-- `v-if` para mensajes de carga, error y ciudad no encontrada.
-- `v-show` para mostrar cantidad de resultados.
-- `v-model` para el buscador y selector de unidad.
-- `@submit.prevent` para controlar el formulario.
-- `@click` para limpiar la búsqueda.
-- `RouterLink` para navegar entre vistas.
-- `RouterView` para mostrar las rutas.
-- `ref` para datos reactivos.
-- `computed` para datos calculados.
-- `onMounted` para consumir la API al cargar la vista.
+- Inicio de sesión con usuarios simulados.
+- Registro básico de nuevos usuarios.
+- Validación de credenciales.
+- Mensaje de error cuando el usuario o contraseña son incorrectos.
+- Visualización del usuario conectado.
+- Cierre de sesión.
+- Persistencia de sesión mediante LocalStorage.
 
 
+## Funcionalidades de personalización
 
-## 🚀 Instalación
+- Ciudades favoritas por usuario.
+- Vista protegida de favoritos.
+- Vista protegida de perfil.
+- Preferencias de usuario:
+    - Unidad de temperatura: Celsius o Fahrenheit.
+    - Tema visual: claro u oscuro.
 
-Para instalar las dependencias del proyecto:
+
+## Rutas protegidas
+
+Las rutas /favoritos y /perfil requieren que el usuario haya iniciado sesión.
+
+Si un usuario intenta ingresar a una ruta protegida sin estar autenticado, la aplicación lo redirige automáticamente a /login.
+
+## Usuario de prueba
+
+Para probar el inicio de sesión se puede utilizar:
+
+Correo: nelly@test.com
+Contraseña: 123456
+
+
+## Rutas de la aplicación
+
+### Ruta	       Descripción
+/	               Página principal con listado de ciudades y clima actual
+/about	           Información general del proyecto
+/detalle/:id	   Detalle del clima de una ciudad
+/login	           Inicio de sesión
+/registro	       Registro de usuario
+/favoritos	       Ruta protegida con ciudades favoritas
+/perfil	           Ruta protegida con preferencias del usuario
+
+
+## Tecnologías utilizadas
+
+- Vue 3
+- Vite
+- Composition API
+- <script setup>
+- Vue Router
+- Pinia
+- JavaScript
+- CSS
+- Open-Meteo API
+- LocalStorage
+- Git
+- GitHub
+
+
+## Estructura principal del proyecto
 
 ```bash
+src/
+├── api/
+│   └── usuariosApi.js
+├── assets/
+│   └── main.css
+├── components/
+│   ├── ClimaCard.vue
+│   └── EstadisticasClima.vue
+├── data/
+│   ├── ciudades.js
+│   └── usuariosMock.js
+├── router/
+│   └── index.js
+├── services/
+│   └── ClimaServices.js
+├── stores/
+│   └── authStore.js
+├── views/
+│   ├── AboutView.vue
+│   ├── DetalleView.vue
+│   ├── FavoritosView.vue
+│   ├── HomeView.vue
+│   ├── LoginView.vue
+│   ├── PerfilView.vue
+│   └── RegistroView.vue
+├── App.vue
+└── main.js
+```
+
+## Estado global con Pinia
+
+El estado global se maneja en authStore.js.
+
+Este store permite administrar:
+
+- Usuario autenticado.
+- Estado de carga.
+- Mensajes de error.
+- Login.
+- Registro.
+- Logout.
+- Favoritos.
+- Preferencias de temperatura.
+- Preferencias de tema visual.
+
+Pinia permite compartir estos datos entre distintas vistas sin repetir lógica en cada componente.
+
+
+## Protección de rutas
+
+La protección de rutas se implementó mediante un guard de Vue Router.
+
+Las rutas privadas utilizan:
+```sh
+meta: { requiresAuth: true }
+```
+El **guard** revisa si el usuario está autenticado. Si no lo está, se redirige a la vista de login.
+
+
+## Instalación del proyecto
+
+Clonar el repositorio:
+
+git clone https://github.com/ferradasmane-droid/vue-app-clima-m7.git
+
+Entrar a la carpeta del proyecto:
+
+**cd vue-app-clima-m7**
+
+Instalar dependencias:
+```sh
 npm install
 ```
 
-## Ejecutar el proyecto
-
-Para iniciar el servidor de desarrollo
-
-```bash
+## Ejecutar en modo desarrollo
+```sh
 npm run dev
 ```
 
-## Autora
-Nelly Ferrada
+Luego abrir en el navegador la URL indicada por Vite, por ejemplo:
 
+http://localhost:5173/
+
+
+## Crear versión de producción
+```sh
+npm run build
+```
+
+## Repositorio
+
+Repositorio público en GitHub:
+
+https://github.com/ferradasmane-droid/vue-app-clima-m7
+
+
+## Autora
+
+Nelly Ferrada
