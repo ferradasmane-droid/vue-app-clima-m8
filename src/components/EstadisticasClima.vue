@@ -5,17 +5,17 @@
     <div class="grid-estadisticas">
       <article class="estadistica-card estadistica-minima">
         <h4>❄️ Temperatura mínima</h4>
-        <p>{{ minima }}°C</p>
+        <p>{{ minima }}°{{ unidad }}</p>
       </article>
 
       <article class="estadistica-card estadistica-maxima">
         <h4>☀️ Temperatura máxima</h4>
-        <p>{{ maxima }}°C</p>
+        <p>{{ maxima }}°{{ unidad }}</p>
       </article>
 
       <article class="estadistica-card estadistica-promedio">
         <h4>🌡️ Promedio semanal</h4>
-        <p>{{ promedio }}°C</p>
+        <p>{{ promedio }}°{{ unidad }}</p>
       </article>
     </div>
   </section>
@@ -33,18 +33,24 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  unidad: {
+    type: String,
+    default: 'C',
+  },
 })
 
 const minima = computed(() => {
-  return Math.min(...props.temperaturasMinimas)
+  return Math.round(Math.min(...props.temperaturasMinimas))
 })
 
 const maxima = computed(() => {
-  return Math.max(...props.temperaturasMaximas)
+  return Math.round(Math.max(...props.temperaturasMaximas))
 })
 
 const promedio = computed(() => {
-  const suma = props.temperaturasMaximas.reduce((total, temp) => total + temp, 0)
+  const suma = props.temperaturasMaximas.reduce((total, temp) => {
+    return total + temp
+  }, 0)
 
   return Math.round(suma / props.temperaturasMaximas.length)
 })

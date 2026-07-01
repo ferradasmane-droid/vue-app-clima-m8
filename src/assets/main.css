@@ -861,3 +861,39 @@ a {
     align-items: flex-start;
   }
 }
+
+.alerta-meteorologica {
+  max-width: 720px;
+  margin: 30px auto;
+  padding: 26px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fff7d6, #ffffff);
+  border-top: 6px solid #f4b400;
+  box-shadow: 0 8px 22px rgba(244, 180, 0, 0.18);
+  text-align: center;
+}
+
+.alerta-meteorologica h2 {
+  color: #92400e;
+  margin-top: 0;
+}
+
+.alerta-meteorologica p {
+  color: #334155;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.tema-oscuro .alerta-meteorologica {
+  background: #1f2937;
+  color: #f9fafb;
+  border-top-color: #f4b400;
+}
+
+.tema-oscuro .alerta-meteorologica h2 {
+  color: #facc15;
+}
+
+.tema-oscuro .alerta-meteorologica p {
+  color: #f9fafb;
+}

@@ -47,3 +47,29 @@ export const obtenerIconoClima = (codigo) => {
 
   return '🌦️'
 }
+
+export const esCodigoLluvia = (codigo) => {
+  return [51, 53, 55, 61, 63, 65, 80, 81, 82].includes(codigo)
+}
+
+export const esCodigoNieve = (codigo) => {
+  return [71, 73, 75].includes(codigo)
+}
+
+export const esCodigoTormenta = (codigo) => {
+  return codigo === 95
+}
+
+export const obtenerClaseClima = (codigo) => {
+  if (codigo === 0) return 'card-soleado'
+  if ([1, 2].includes(codigo)) return 'card-parcial'
+  if (codigo === 3) return 'card-nublado'
+  if ([45, 48].includes(codigo)) return 'card-neblina'
+  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(codigo)) {
+    return 'card-lluvia'
+  }
+  if ([71, 73, 75].includes(codigo)) return 'card-nieve'
+  if (codigo === 95) return 'card-tormenta'
+
+  return 'card-normal'
+}

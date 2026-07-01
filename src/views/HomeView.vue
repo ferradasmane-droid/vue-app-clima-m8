@@ -3,39 +3,72 @@
     <div class="contenedor">
       <div class="intro">
         <h1>Consulta el clima actual</h1>
-        <p>Revisa el clima de distintas ciudades usando datos reales desde Open-Meteo.</p>
+
+        <p>
+          Revisa el clima de distintas ciudades usando datos reales desde Open-Meteo.
+        </p>
+
+        <p v-if="authStore.isAuthenticated" class="usuario-activo">
+          Sesión activa: {{ authStore.nombreUsuario }}
+        </p>
       </div>
 
       <form class="formulario" @submit.prevent="buscar">
-        <input v-model="busqueda" type="text" placeholder="Buscar ciudad..." />
+        <input
+          v-model="busqueda"
+          type="text"
+          placeholder="Buscar ciudad..."
+        />
 
-        <select v-model="unidad">
+        <select v-model="unidadSeleccionada">
           <option value="C">Celsius °C</option>
           <option value="F">Fahrenheit °F</option>
         </select>
 
-        <button type="submit">Buscar</button>
+        <button type="submit">
+          Buscar
+        </button>
 
-        <button type="button" @click="limpiarBusqueda">Limpiar</button>
+        <button type="button" @click="limpiarBusqueda">
+          Limpiar
+        </button>
       </form>
 
-      <p v-if="cargando" class="mensaje">Cargando información del clima...</p>
-
-      <p v-if="error" class="error">
-        {{ error }}
+      <p v-if="climaStore.cargando" class="mensaje">
+        Cargando información del clima...
       </p>
 
-      <p v-show="!cargando && ciudadesFiltradas.length > 0" class="resultado">
+      <p v-if="climaStore.error" class="error">
+        {{ climaStore.error }}
+      </p>
+
+      <p
+        v-show="!climaStore.cargando && ciudadesFiltradas.length > 0"
+        class="resultado"
+      >
         Ciudades encontradas: {{ ciudadesFiltradas.length }}
       </p>
 
-      <p v-if="!cargando && ciudadesFiltradas.length === 0" class="mensaje">
+      <p
+        v-if="!climaStore.cargando && ciudadesFiltradas.length === 0"
+        class="mensaje"
+      >
         No se encontró ninguna ciudad.
       </p>
 
-      <div class="grid" :class="{ 'grid-una-card': ciudadesFiltradas.length === 1 }">
-        <div v-for="ciudad in ciudadesFiltradas" :key="ciudad.id" class="card-contenedor">
-          <ClimaCard :ciudad="ciudad" :unidad="unidad" />
+      <div
+        class="grid"
+        :class="{ 'grid-una-card': ciudadesFiltradas.length === 1 }"
+      >
+        <div
+          v-for="ciudad in ciudadesFiltradas"
+          :key="ciudad.id"
+          class="card-contenedor"
+        >
+          <ClimaCard
+            :ciudad="ciudad"
+            :unidad="climaStore.unidad"
+          />
 
           <button
             v-if="authStore.isAuthenticated"
@@ -46,7 +79,9 @@
             Agregar a favoritos
           </button>
 
-          <p v-else class="texto-login">Inicia sesión para guardar esta ciudad.</p>
+          <p v-else class="texto-login">
+            Inicia sesión para guardar esta ciudad.
+          </p>
         </div>
       </div>
     </div>
@@ -54,53 +89,27 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import ClimaCard from '../components/ClimaCard.vue'
-import { ciudadesBase } from '../data/ciudades'
 import { useAuthStore } from '../stores/authStore'
-
-import {
-  obtenerClima,
-  obtenerDescripcionClima,
-  obtenerIconoClima,
-} from '../services/ClimaServices.js'
+import { useClimaStore } from '../stores/climaStore'
 
 const authStore = useAuthStore()
+const climaStore = useClimaStore()
 
 const busqueda = ref('')
-const unidad = ref(authStore.preferencias.unidad || 'C')
-const ciudades = ref([])
-const cargando = ref(true)
-const error = ref('')
+const unidadSeleccionada = ref(climaStore.unidad)
 
-onMounted(async () => {
-  try {
-    const ciudadesConClima = await Promise.all(
-      ciudadesBase.map(async (ciudad) => {
-        const clima = await obtenerClima(ciudad.lat, ciudad.lon)
+onMounted(() => {
+  climaStore.cargarCiudades()
+})
 
-        return {
-          ...ciudad,
-          temperatura: clima.current.temperature_2m,
-          humedad: clima.current.relative_humidity_2m,
-          viento: clima.current.wind_speed_10m,
-          codigoClima: clima.current.weather_code,
-          descripcion: obtenerDescripcionClima(clima.current.weather_code),
-          icono: obtenerIconoClima(clima.current.weather_code),
-        }
-      }),
-    )
-
-    ciudades.value = ciudadesConClima
-  } catch (e) {
-    error.value = 'No se pudo cargar la información desde Open-Meteo.'
-  } finally {
-    cargando.value = false
-  }
+watch(unidadSeleccionada, (nuevaUnidad) => {
+  climaStore.cambiarUnidad(nuevaUnidad)
 })
 
 const ciudadesFiltradas = computed(() => {
-  return ciudades.value.filter((ciudad) =>
+  return climaStore.ciudadesDisponibles.filter((ciudad) =>
     ciudad.nombre.toLowerCase().includes(busqueda.value.toLowerCase()),
   )
 })
