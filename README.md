@@ -1,25 +1,30 @@
-# Módulo 7 - App del Clima con Login, Usuarios y Estado Global
+# Módulo 8 - App del Clima / Portafolio Final
 
 ## Descripción del proyecto
 
-Este proyecto corresponde a una App del Clima desarrollada con Vue 3, Vite, Vue Router y Pinia.
+Este proyecto corresponde a la versión final de una App del Clima desarrollada con Vue 3, Vite, Vue Router y Pinia.
 
-La aplicación fue construida sobre la base del proyecto del Módulo 6, donde se consultaba información real del clima usando la API pública de Open-Meteo. En esta nueva versión del Módulo 7 se agregaron funcionalidades de autenticación, registro de usuarios, estado global, rutas protegidas, favoritos y preferencias personalizadas por usuario.
+La aplicación fue construida a partir de los módulos anteriores, integrando consumo de API real, rutas, componentes reutilizables, estado global, autenticación, favoritos, preferencias de usuario, estadísticas semanales y alertas meteorológicas.
 
-Aunque la pauta menciona Vuex, este proyecto utiliza Pinia como alternativa moderna recomendada para Vue 3. Pinia cumple la función de manejar el estado global de la aplicación, permitiendo guardar el usuario autenticado, sus favoritos y sus preferencias.
+La app consulta información real del clima mediante la API pública de Open-Meteo, utilizando coordenadas de distintas comunas de Chiloé.
+
+Aunque la pauta menciona Vuex, este proyecto utiliza Pinia como alternativa moderna recomendada para Vue 3. Pinia cumple la función de manejar el estado global de la aplicación, permitiendo administrar datos del clima, estados de carga y error, ciudad seleccionada, usuario autenticado, favoritos y preferencias.
 
 ## Objetivo del ejercicio
 
-Agregar a la App del Clima un sistema básico de usuarios que permita:
+Entregar la versión final de la App del Clima como producto de portafolio profesional, incorporando:
 
-- Iniciar sesión.
-- Registrar un nuevo usuario.
-- Mantener el estado de autenticación.
-- Proteger rutas privadas.
-- Personalizar la experiencia según el usuario conectado.
-- Guardar ciudades favoritas.
-- Cambiar preferencias de temperatura y tema visual.
-
+- Aplicación SPA desarrollada con Vue.
+- Navegación interna con Vue Router.
+- Consumo de API externa real.
+- Manejo de estado global con Pinia.
+- Vista Home con listado de ciudades y clima actual.
+- Vista Detalle con pronóstico semanal.
+- Estadísticas de temperatura semanal.
+- Alerta meteorológica generada por reglas simples.
+- Vista extra de favoritos y perfil de usuario.
+- Documentación clara para ejecutar el proyecto en local.
+- Pruebas unitarias para validar componentes y estado global.
 
 ## Funcionalidades principales
 
@@ -33,7 +38,8 @@ Agregar a la App del Clima un sistema básico de usuarios que permita:
 - Vista de detalle por ciudad.
 - Pronóstico semanal.
 - Estadísticas de temperatura mínima, máxima y promedio.
-- Navegación interna con Vue Router.
+- Alerta meteorológica según condiciones del pronóstico.
+- Manejo de estados de carga y error al consultar la API.
 
 
 ### Funcionalidades de usuarios
@@ -55,6 +61,73 @@ Agregar a la App del Clima un sistema básico de usuarios que permita:
 - Preferencias de usuario:
     - Unidad de temperatura: Celsius o Fahrenheit.
     - Tema visual: claro u oscuro.
+
+## API utilizada
+
+a aplicación utiliza la API pública de Open-Meteo para obtener información real del clima.
+
+Datos consultados:
+
+- Temperatura actual.
+- Humedad.
+- Velocidad del viento.
+- Código del estado del clima.
+- Temperatura mínima semanal.
+- Temperatura máxima semanal.
+- Probabilidad de precipitación.
+- Pronóstico diario.
+
+No se requiere API Key para ejecutar este proyecto.
+
+## Estado global con Pinia
+
+El proyecto utiliza Pinia para manejar el estado global.
+
+Se implementan dos stores principales:
+```sh
+authStore.js
+```
+Administra la información relacionada con el usuario:
+
+- Usuario autenticado.
+- Estado de carga.
+- Mensajes de error.
+- Login.
+- Registro.
+- Logout.
+- Favoritos.
+- Preferencias de temperatura.
+- Preferencias de tema visual.
+
+```sh
+climaStore.js
+```
+Administra la información relacionada con el clima:
+
+- Lista de ciudades con clima actual.
+- Ciudad seleccionada.
+- Pronóstico de la ciudad seleccionada.
+- Estado de carga.
+- Mensajes de error.
+- Unidad de temperatura.
+- Conversión Celsius / Fahrenheit.
+- Alerta meteorológica.
+- Cache básico en LocalStorage para evitar llamadas innecesarias a la API.
+
+Pinia permite compartir estos datos entre distintas vistas sin repetir lógica en cada componente.
+
+## Alertas meteorológicas
+
+La vista de detalle incluye una alerta meteorológica generada a partir de reglas simples.
+
+La aplicación muestra una alerta cuando:
+
+- Hay posible tormenta durante la semana.
+- Hay varios días con lluvia.
+- Existe una posible semana calurosa.
+- No existen condiciones importantes, se informa que no hay alertas relevantes.
+
+Esto permite cumplir con el requisito de generar al menos una alerta meteorológica a partir de los datos obtenidos desde la API.
 
 
 ## Rutas protegidas
@@ -79,12 +152,29 @@ Para probar el inicio de sesión se puede utilizar:
 |---|---|
 | `/` |	               Página principal con listado de ciudades y clima actual. |
 | `/about` |         Información general del proyecto. | 
-|`/detalle/:id` |    Detalle del clima de una ciudad. |
-|`/login` |	           Inicio de sesión. |
-|`/registro` |      Registro de usuario. |
-|`/favoritos`|	       Ruta protegida con ciudades favoritas. |
+|`/detalle/:id` |     Detalle del clima de una ciudad, pronóstico semanal, estadísticas y alerta meteorológica. |
+|`/login` |	         Inicio de sesión. |
+|`/registro` |       Registro de usuario. |
+|`/favoritos`|	     Ruta protegida con ciudades favoritas. |
 |`/perfil` |	           Ruta protegida con preferencias del usuario. |
 
+
+## Protección de rutas
+
+La aplicación utiliza Vue Router para la navegación interna y cuenta con rutas protegidas para las vistas de usuario.
+
+Las rutas privadas son:
+
+- `/favoritos`
+- `/perfil`
+
+Estas rutas utilizan la propiedad:
+
+```js
+meta: { requiresAuth: true }
+```
+
+El **guard** de navegación revisa si existe un usuario autenticado en authStore. Si el usuario no ha iniciado sesión, la aplicación lo redirige automáticamente a la vista de login.
 
 ## Tecnologías utilizadas
 
@@ -98,6 +188,9 @@ Para probar el inicio de sesión se puede utilizar:
 - CSS
 - Open-Meteo API
 - LocalStorage
+- Vitest
+- Vue Test Utils
+- jsdom
 - Git
 - GitHub
 
@@ -105,9 +198,9 @@ Para probar el inicio de sesión se puede utilizar:
 ## Estructura principal del proyecto
 
 ```bash
-vue-app-clima-m7/
+vue-app-clima-m8/
 ├── docs/
-│   └── test-unitarios.png
+│   └── test-unitarios-m8.png
 ├── src/
 │   ├── api/
 │   │   └── usuariosApi.js
@@ -131,6 +224,7 @@ vue-app-clima-m7/
 │   │   ├── __tests__/
 │   │   │   └── authStore.spec.js
 │   │   └── authStore.js
+│   │   └── climaStore.js
 │   ├── views/
 │   │   ├── AboutView.vue
 │   │   ├── DetalleView.vue
@@ -146,32 +240,9 @@ vue-app-clima-m7/
 └── README.md
 ```
 
-## Estado global con Pinia
-
-El estado global se maneja en authStore.js.
-
-Este store permite administrar:
-
-- Usuario autenticado.
-- Estado de carga.
-- Mensajes de error.
-- Login.
-- Registro.
-- Logout.
-- Favoritos.
-- Preferencias de temperatura.
-- Preferencias de tema visual.
-
-Pinia permite compartir estos datos entre distintas vistas sin repetir lógica en cada componente.
-
-
 ## Pruebas unitarias
 
 Se implementaron pruebas unitarias utilizando Vitest y Vue Test Utils para verificar el correcto funcionamiento de componentes reutilizables y del estado global de la aplicación.
-
-Resultado Obtenido:
-
-![Resultado pruebas unitarias](./docs/test-unitarios.png)
 
 Las pruebas realizadas validan:
 
@@ -179,6 +250,7 @@ Las pruebas realizadas validan:
 - Conversión de temperatura entre Celsius y Fahrenheit.
 - Enlace de navegación hacia el detalle de una ciudad.
 - Cálculo de temperatura mínima, máxima y promedio en `EstadisticasClima.vue`.
+- Visualización de unidad Celsius y Fahrenheit en estadísticas.
 - Funcionamiento del `authStore.js` para agregar, evitar duplicados y eliminar favoritos.
 
 Archivos testeados:
@@ -193,16 +265,9 @@ Para ejecutar las pruebas unitarias:
 ```sh
 npm run test:unit
 ```
+Resultado Obtenido:
 
-## Protección de rutas
-
-La protección de rutas se implementó mediante un guard de Vue Router.
-
-Las rutas privadas utilizan:
-```sh
-meta: { requiresAuth: true }
-```
-El **guard** revisa si el usuario está autenticado. Si no lo está, se redirige a la vista de login.
+![Resultado pruebas unitarias](./docs/test-unitarios.png)
 
 
 ## Instalación del proyecto
@@ -210,13 +275,12 @@ El **guard** revisa si el usuario está autenticado. Si no lo está, se redirige
 ### Clonar el repositorio:
 
 Para descargar el proyecto en tu computador, ejecuta el siguiente comando:
-```sh
-git clone https://github.com/ferradasmane-droid/vue-app-clima-m7.git
-```
+
+git clone https://github.com/ferradasmane-droid/vue-app-clima-m8.git
 
 Entrar a la carpeta del proyecto:
 
-**cd vue-app-clima-m7**
+**cd vue-app-clima-m8**
 
 Instalar dependencias:
 ```sh
@@ -237,10 +301,18 @@ http://localhost:5173/
 ```sh
 npm run build
 ```
+## Ejecutar pruebas unitarias
+```sh
+npm run test:unit
+```
+
+### Configuración de variables de entorno
+
+Este proyecto no requiere archivo .env, ya que la API utilizada, Open-Meteo, es pública y no necesita API Key.
 
 ## Repositorio
 
-[Ver epositorio público en GitHub](https://github.com/ferradasmane-droid/vue-app-clima-m7)
+[Ver epositorio público en GitHub](https://github.com/ferradasmane-droid/vue-app-clima-m8)
 
 
 ## Autora
