@@ -267,8 +267,7 @@ npm run test:unit
 ```
 Resultado Obtenido:
 
-![Resultado pruebas unitarias](./docs/test-unitarios.png)
-
+![Resultado pruebas unitarias](./docs/test-unitarios-m8.png)
 
 ## Instalación del proyecto
 
@@ -312,7 +311,7 @@ Este proyecto no requiere archivo .env, ya que la API utilizada, Open-Meteo, es 
 
 ## Repositorio
 
-[Ver epositorio público en GitHub](https://github.com/ferradasmane-droid/vue-app-clima-m8)
+[Ver repositorio público en GitHub](https://github.com/ferradasmane-droid/vue-app-clima-m8)
 
 
 ## Autora
